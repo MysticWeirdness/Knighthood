@@ -80,6 +80,15 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""3e3e1653-d21a-4aa4-8a41-d40ff41203ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +201,17 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc5430da-c650-4c03-81f8-0964ad53bf32"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +226,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         m_Controller_Attack = m_Controller.FindAction("Attack", throwIfNotFound: true);
         m_Controller_SpecialAttack = m_Controller.FindAction("SpecialAttack", throwIfNotFound: true);
         m_Controller_Push = m_Controller.FindAction("Push", throwIfNotFound: true);
+        m_Controller_Run = m_Controller.FindAction("Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +294,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controller_Attack;
     private readonly InputAction m_Controller_SpecialAttack;
     private readonly InputAction m_Controller_Push;
+    private readonly InputAction m_Controller_Run;
     public struct ControllerActions
     {
         private @InputControls m_Wrapper;
@@ -283,6 +305,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Controller_Attack;
         public InputAction @SpecialAttack => m_Wrapper.m_Controller_SpecialAttack;
         public InputAction @Push => m_Wrapper.m_Controller_Push;
+        public InputAction @Run => m_Wrapper.m_Controller_Run;
         public InputActionMap Get() { return m_Wrapper.m_Controller; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -310,6 +333,9 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Push.started += instance.OnPush;
             @Push.performed += instance.OnPush;
             @Push.canceled += instance.OnPush;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
         }
 
         private void UnregisterCallbacks(IControllerActions instance)
@@ -332,6 +358,9 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Push.started -= instance.OnPush;
             @Push.performed -= instance.OnPush;
             @Push.canceled -= instance.OnPush;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
         }
 
         public void RemoveCallbacks(IControllerActions instance)
@@ -357,5 +386,6 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnSpecialAttack(InputAction.CallbackContext context);
         void OnPush(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
     }
 }

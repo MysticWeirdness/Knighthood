@@ -6,54 +6,60 @@ public class PlayerInput : MonoBehaviour
 {
     [Header("Components")]
     private InputControls inputControls;
-    private Rigidbody2D rb;
-
-    [Header("Movement")]
-    private float speed = 5f;
-    private Vector2 movementVector;
-
-    [Header("Jumping")]
-    private bool canJump = false;
-    private float jumpForce = 7f;
-    private Vector2 jumpVector = Vector2.up;
-    
+    private MovementController movementController;
+    private PlayerAnimations playerAnimations;
 
     private void Awake()
     {
-        jumpVector *= jumpForce;
-        rb = GetComponent<Rigidbody2D>();
+        movementController = GetComponent<MovementController>();
         inputControls = new InputControls();
+        playerAnimations = GetComponentInChildren<PlayerAnimations>();
     }
     private void OnEnable()
     {
         inputControls.Enable();
-    }
-
-    private void FixedUpdate()
-    {
-        if (canJump && inputControls.Controller.Jump.ReadValue<float>() > 0)
-        {
-            Jump();
-            canJump = false;
-        }
-        movementVector = inputControls.Controller.Movement.ReadValue<Vector2>();
-        rb.velocity = new Vector2(movementVector.x * speed, rb.velocity.y);
-    }
-
-    void Jump()
-    {
-        rb.AddForce(jumpVector, ForceMode2D.Impulse);
     }
     private void OnDisable()
     {
         inputControls.Disable();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void Update()
     {
-        if (collision.gameObject.CompareTag("Floor"))
+        // Passes Movement Vector2 to the movement script
+        movementController.SetMovementVector(inputControls.Controller.Movement.ReadValue<Vector2>());
+
+        // Turns the sprite in the correct direction
+        playerAnimations.ChangeSpriteDirection(inputControls.Controller.Movement.ReadValue<Vector2>().x);
+
+        // Based on input detects which state is the current state
+        DetectState();
+
+
+    }
+
+    private void DetectState()
+    {
+        if(inputControls.Controller.Jump.ReadValue<float>() > 0)
         {
-            canJump = true;
+            playerAnimations.SwitchState(PlayerAnimations.State.jumping);
+        }
+        if (inputControls.Controller.Movement.ReadValue<Vector2>() == Vector2.zero && movementController.Grounded())
+        {
+            playerAnimations.SwitchState(PlayerAnimations.State.idle);
+        }
+        switch (playerAnimations.GetCurrentState())
+        {
+            case PlayerAnimations.State.jumping:
+                return;
+        }
+        if (inputControls.Controller.Movement.ReadValue<Vector2>() != Vector2.zero && inputControls.Controller.Run.ReadValue<float>() == 0)
+        {
+            playerAnimations.SwitchState(PlayerAnimations.State.walking);
+        }
+        else if (inputControls.Controller.Movement.ReadValue<Vector2>() != Vector2.zero && inputControls.Controller.Run.ReadValue<float>() > 0)
+        {
+            playerAnimations.SwitchState(PlayerAnimations.State.running);
         }
     }
 }
