@@ -6,7 +6,7 @@ public class PlayerAnimations : MonoBehaviour
 {
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private State state = State.idle; 
+    private State state = State.idle;
 
     public enum State
     {
@@ -34,7 +34,7 @@ public class PlayerAnimations : MonoBehaviour
     }
     public void ChangeSpriteDirection(float horizontalMovement)
     {
-        if(horizontalMovement > 0)
+        if (horizontalMovement > 0)
         {
             spriteRenderer.flipX = false;
         }

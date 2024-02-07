@@ -139,7 +139,7 @@
                 {
                     "name": "up",
                     "id": "ea384313-5881-42d3-9ab5-4fd0eec5c246",
-                    "path": "",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -150,7 +150,7 @@
                 {
                     "name": "down",
                     "id": "05c88de5-7028-40a2-bb68-c531ab5e829a",
-                    "path": "",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
