@@ -37,15 +37,14 @@ public class PlayerMovement : MonoBehaviour
         controls.Disable();
     }
 
-    private void FixedUpdate()
+    private async void FixedUpdate()
     {
         if (canJump && controls.Controller.Jump.ReadValue<float>() >= 0.5f && isGrounded)
         {
-            Debug.Log("Jumped");
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
             canJump = false;
-            Timer(300);
+            await Timer(300);
         }
         isGrounded = GroundCheck();
         Vector2 movement = controls.Controller.Movement.ReadValue<Vector2>();
