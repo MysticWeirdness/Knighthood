@@ -17,11 +17,16 @@ public class PlayerMovement : MonoBehaviour
     private float jumpForce = 5f; 
     private float ladderSpeed = 0.1f;
 
+    private Vector3 facingRight;
+    private Vector3 facingLeft;
+
     private Vector3 boxSize;
     private float maxDistance;
     [SerializeField] private LayerMask mask;
     private void Awake()
     {
+        facingRight = new Vector3(1, 1, 1);
+        facingLeft = new Vector3(-1, 1, 1);
         boxSize = new Vector2(0.3f, 0.1f);
         maxDistance = 0.35f;
         controls = new InputControls();
@@ -48,6 +53,23 @@ public class PlayerMovement : MonoBehaviour
         }
         isGrounded = GroundCheck();
         Vector2 movement = controls.Controller.Movement.ReadValue<Vector2>();
+        if(movement.x > 0)
+        {
+            transform.localScale = facingRight;
+        }
+        else if(movement.x < 0)
+        {
+            transform.localScale = facingLeft;
+        }
+
+        if(controls.Controller.Run.ReadValue<float>() >= 0.5f)
+        {
+            movSpeed = 3f;
+        }
+        else
+        {
+            movSpeed = 2f;
+        }
         Vector2 horizontalMovement;
         if(transform.position.y < -100)
         {
