@@ -46,7 +46,7 @@ public class PlayerAnimations : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(state);
+//        Debug.Log(state);
     }
     private void Animate(State state)
     {

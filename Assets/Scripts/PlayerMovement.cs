@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = horizontalMovement;
         }
 
-        if (touchingLadder && !onLadder && controls.Controller.Interact.ReadValue<float>() >= 0.5f && isGrounded)
+        if (touchingLadder && !onLadder && controls.Controller.Interact.ReadValue<float>() >= 0.5f)
         {
             onLadder = true;
         }
@@ -102,7 +102,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(onLadder && movement.y < 0f)
         {
-            transform.position += Vector3.down * ladderSpeed;
+            if (isGrounded)
+            {
+
+            }
+            else
+            {
+                transform.position += Vector3.down * ladderSpeed;
+            }
         }
     }
 
@@ -110,11 +117,6 @@ public class PlayerMovement : MonoBehaviour
     {
         await Task.Delay(timeInMilliseconds);
         canJump = true;
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
     }
     private bool GroundCheck()
     {
