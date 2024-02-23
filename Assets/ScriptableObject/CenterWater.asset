@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: CenterWater
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 21300000, guid: 29963885379dfb944becf48b113de5bf, type: 3}
+  - {fileID: 21300000, guid: 5961b7d93d12a6241982409f59941873, type: 3}
+  - {fileID: 21300000, guid: e5fbdc0fec944384bb1d3597fa669d98, type: 3}
+  - {fileID: 21300000, guid: 65483e4922f665f48a42a323d0c59eac, type: 3}
+  - {fileID: 21300000, guid: f2829d8729a0aba4fb64669eb787868d, type: 3}
+  - {fileID: 21300000, guid: 0f44e3219f8d39d46b71be8c6104acd0, type: 3}
+  - {fileID: 21300000, guid: 9603f464025275d4ca88898e9960d7c6, type: 3}
+  - {fileID: 21300000, guid: 6eaf85114d2858440b79b110e143c24c, type: 3}
+  - {fileID: 21300000, guid: 29963885379dfb944becf48b113de5bf, type: 3}
+  m_MinSpeed: 5
+  m_MaxSpeed: 20
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 1
+  m_TileAnimationFlags: 0
