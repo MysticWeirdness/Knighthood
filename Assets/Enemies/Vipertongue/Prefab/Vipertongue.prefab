@@ -110,9 +110,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e65f4242f105944e8dfd6de386d1b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  right: 1
   mask:
     serializedVersion: 2
     m_Bits: 256
+  player:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!68 &8150327145769986697
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -165,7 +169,6 @@ GameObject:
   - component: {fileID: 7182580981600590343}
   - component: {fileID: 2485825052340684600}
   - component: {fileID: 8976062594229001064}
-  - component: {fileID: 1437515059855417429}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -261,15 +264,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1437515059855417429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7829674039846342809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d47b98f1ba3e914ba214f3d29ce66a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

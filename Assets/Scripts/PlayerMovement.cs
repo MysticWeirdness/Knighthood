@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using UnityEditorInternal;
 
 public class PlayerMovement : MonoBehaviour
 {
     private InputControls controls;
     private Rigidbody2D rb;
+    private PlayerAnimations stateMachine;
 
     private float movSpeed = 2f;
     private bool onLadder = false;
     private bool touchingLadder = false;
     [SerializeField] private bool isGrounded = true;
     private bool canJump = true;
+    private bool attacking = false;
     private float jumpForce = 5f; 
-    private float ladderSpeed = 0.1f;
+    private float ladderSpeed = 0.05f;
 
     private Vector3 facingRight;
     private Vector3 facingLeft;
@@ -31,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         maxDistance = 0.35f;
         controls = new InputControls();
         rb = GetComponent<Rigidbody2D>();
+        stateMachine = GetComponentInChildren<PlayerAnimations>();
     }
     private void OnEnable()
     {
@@ -49,11 +53,35 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
             canJump = false;
-            await Timer(300);
+            await JumpTimer(300);
         }
         isGrounded = GroundCheck();
         Vector2 movement = controls.Controller.Movement.ReadValue<Vector2>();
-        if(movement.x > 0)
+        
+        if(movement == Vector2.zero && isGrounded && !onLadder && !attacking)
+        {
+            stateMachine.SwitchState(PlayerAnimations.State.idle);
+        }
+        else if(movement.x != 0 && isGrounded && !onLadder && controls.Controller.Run.ReadValue<float>() < 0.5f)
+        {
+            movSpeed = 2f;
+            stateMachine.SwitchState(PlayerAnimations.State.walking);
+        }
+        else if (movement.x != 0 && isGrounded && !onLadder && controls.Controller.Run.ReadValue<float>() >= 0.5f)
+        {
+            movSpeed = 3f;
+            stateMachine.SwitchState(PlayerAnimations.State.running);
+        }
+        else if (rb.velocity.y > 0 && !isGrounded && !onLadder)
+        {
+            stateMachine.SwitchState(PlayerAnimations.State.jumping);
+        }
+        else if(rb.velocity.y < 0 && !isGrounded && !onLadder)
+        {
+            stateMachine.SwitchState(PlayerAnimations.State.falling);
+        }
+
+        if (movement.x > 0)
         {
             transform.localScale = facingRight;
         }
@@ -61,20 +89,13 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.localScale = facingLeft;
         }
-
-        if(controls.Controller.Run.ReadValue<float>() >= 0.5f)
+        if(controls.Controller.Attack.ReadValue<float>() >= 0.5f && stateMachine.GetCurrentState() == PlayerAnimations.State.idle)
         {
-            movSpeed = 3f;
-        }
-        else
-        {
-            movSpeed = 2f;
+            attacking = true;
+            await AttackTimer(1000);
+            stateMachine.SwitchState(PlayerAnimations.State.attacking);
         }
         Vector2 horizontalMovement;
-        if(transform.position.y < -100)
-        {
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        }
         if (onLadder)
         {
             horizontalMovement = new Vector2(movement.x, 0);
@@ -91,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         if (touchingLadder && !onLadder && controls.Controller.Interact.ReadValue<float>() >= 0.5f)
         {
             onLadder = true;
+            stateMachine.SwitchState(PlayerAnimations.State.climbing);
         }
         else if (touchingLadder && onLadder && controls.Controller.Jump.ReadValue<float>() >= 0.5f)
         {
@@ -104,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isGrounded)
             {
-
+                onLadder = false;
             }
             else
             {
@@ -113,7 +135,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private async Task Timer(int timeInMilliseconds)
+    private async Task AttackTimer(int timeInMilliseconds)
+    {
+        await Task.Delay(timeInMilliseconds);
+        attacking = false;
+    }
+    private async Task JumpTimer(int timeInMilliseconds)
     {
         await Task.Delay(timeInMilliseconds);
         canJump = true;

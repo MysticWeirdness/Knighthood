@@ -6,7 +6,7 @@ public class PlayerAnimations : MonoBehaviour
 {
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private State state = State.idle;
+    private State currentState = State.idle;
 
     public enum State
     {
@@ -14,7 +14,9 @@ public class PlayerAnimations : MonoBehaviour
         walking,
         running,
         attacking,
-        jumping
+        jumping,
+        climbing,
+        falling
     }
     private void Awake()
     {
@@ -22,50 +24,45 @@ public class PlayerAnimations : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        SwitchState(State.idle);
+    }
     public void SwitchState(State newState)
     {
-        state = newState;
-        Animate(state);
+        currentState = newState;
+        Animate(currentState);
     }
 
     public State GetCurrentState()
     {
-        return state;
-    }
-    public void ChangeSpriteDirection(float horizontalMovement)
-    {
-        if (horizontalMovement > 0)
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if (horizontalMovement < 0)
-        {
-            spriteRenderer.flipX = true;
-        }
+        return currentState;
     }
 
-    private void Update()
-    {
-//        Debug.Log(state);
-    }
     private void Animate(State state)
     {
         switch (state)
         {
             case State.idle:
-                animator.Play("Idle");
+                animator.Play(Animator.StringToHash("Idle"));
                 break;
             case State.walking:
-                animator.Play("Walk");
+                animator.Play(Animator.StringToHash("Walk"));
                 break;
             case State.running:
-                animator.Play("Run");
+                animator.Play(Animator.StringToHash("Run"));
                 break;
             case State.attacking:
-                animator.Play("Attack");
+                animator.Play(Animator.StringToHash("Attack"));
                 break;
             case State.jumping:
-                animator.Play("Jump");
+                animator.Play(Animator.StringToHash("Jump"));
+                break;
+            case State.climbing:
+                animator.Play(Animator.StringToHash("Climb"));
+                break;
+            case State.falling:
+                animator.Play(Animator.StringToHash("Fall"));
                 break;
         }
     }

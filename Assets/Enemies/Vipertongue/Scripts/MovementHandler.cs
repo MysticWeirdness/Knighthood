@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovementHandler : MonoBehaviour
 {
     private Rigidbody2D rb2d;
-    private StateMachine stateMachine;
+    private SnakesStateMachine stateMachine;
     [SerializeField] private bool right = true;
     private float movDir = 1;
     private float movSpeed = 150;
