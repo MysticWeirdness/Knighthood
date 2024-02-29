@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7698284544250216505}
   - component: {fileID: 3211852615157721395}
   - component: {fileID: 8150327145769986697}
+  - component: {fileID: 3786975975445633744}
+  - component: {fileID: 8532699796535278636}
   m_Layer: 7
   m_Name: Vipertongue
   m_TagString: Untagged
@@ -158,6 +160,34 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &3786975975445633744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324623654161247744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92523a047428b13488c1fd818e09ef91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8532699796535278636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324623654161247744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53977c780be0d04e9ed76f91cf3584e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snakesStateMachine: {fileID: 3314404068276859114}
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &7829674039846342809
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,6 +199,8 @@ GameObject:
   - component: {fileID: 7182580981600590343}
   - component: {fileID: 2485825052340684600}
   - component: {fileID: 8976062594229001064}
+  - component: {fileID: 1101128119722944820}
+  - component: {fileID: 3314404068276859114}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -264,3 +296,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1101128119722944820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829674039846342809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50651c1c104363f44b50828c18024715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snakeManager: {fileID: 8532699796535278636}
+--- !u!114 &3314404068276859114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829674039846342809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532120894fef13e4a83592c69fb55079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

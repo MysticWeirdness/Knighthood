@@ -7,10 +7,9 @@ public class MovementHandler : MonoBehaviour
     private Rigidbody2D rb2d;
     private SnakesStateMachine stateMachine;
     [SerializeField] private bool right = true;
-    private float movDir = 1;
+    public float movDir { get; private set; } = 1;
     private float movSpeed = 150;
     [SerializeField] private LayerMask mask;
-    [SerializeField] private LayerMask player;
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -30,10 +29,6 @@ public class MovementHandler : MonoBehaviour
         if(Physics2D.Raycast(transform.position, Vector2.right * movDir, 1f, mask))
         {
             ToggleDirection();
-        }
-        if(Physics2D.Raycast(transform.position, Vector2.right * movDir, 1f, player))
-        {
-
         }
     }
     private void ToggleDirection()
